@@ -177,5 +177,21 @@ if resultado:
 else:
     print("Al menos una de las matrices o su producto no es unitario.")
 # Ejercicio 4.4.2
+import math
+def ejercicio_4_2_2(U3, inicial, clicksU):
+    cont = 0
+    while cont < clicksU:
+        result = np.dot(U3, inicial)
+        inicial = result
+        cont += 1
+    return inicial[3]
 
+U3 =np.array ([(complex(0,0),complex(1/math.sqrt(2),0),complex(1/math.sqrt(2),0),complex(0,0)),
+               (complex(0,1/math.sqrt(2)),complex(0,0),complex(0,0),complex(1/math.sqrt(2),0)),
+               (complex(1/math.sqrt(2),0),complex(0,0),complex(0,0),complex(0, 1/math.sqrt(2))),
+               (complex(0,0),complex(1/math.sqrt(2),0),complex(-1/math.sqrt(2),0),complex(0,0))])
+inicial = np.array([1,0,0,0])
+clicksU = 3
+resultado = ejercicio_4_2_2 (U3, inicial, clicksU)
+print("El chance de encontrar la pelota cuántica en el punto 3 es:", resultado)
 
