@@ -111,9 +111,48 @@ media, varianza = hermitiana_media_varianza(m, v)
 print("La media es:", media)
 print("La varianza es:", varianza)
 # 3. El sistema calcula los valores propios del observable y la probabilidad de que el sistema transite a alguno de los vectores propios después de la observación.
+def calcular_vectores_propios(m):
+    valores_propios, vectores_propios = np.linalg.eigh(m)
+    return valores_propios, vectores_propios
 
+def calcular_probabilidad_transicion(v1, v2):
+    v1_norm = v1 / np.linalg.norm(v1)
+    v2_norm = v2 / np.linalg.norm(v2)
+    producto_interno = np.abs(np.vdot(v1_norm, v2_norm))
+    probabilidad_transicion = np.abs(producto_interno) ** 2
+    return probabilidad_transicion
+
+m = np.array([[0, 2-1j, -3], [2+2j, 4, 9+2j], [0, 5-2j, 6-7j]])
+valores_propios, vectores_propios = calcular_vectores_propios(m)
+print("Valores propios:", valores_propios)
+print("Vectores propios:", vectores_propios)
+v = np.array([1j, 2-9j, 3])
+
+probabilidades_transicion = []
+for vector_propio in vectores_propios.T:
+    probabilidad = calcular_probabilidad_transicion(v, vector_propio)
+    probabilidades_transicion.append(probabilidad)
+
+for i, probabilidad in enumerate(probabilidades_transicion):
+    print("Probabilidad de transitar al vector propio", i+1, ":", probabilidad)
 # 4. Se considera la dinámica del sistema. Ahora con una serie de matrices Un el sistema calcula el estado final a partir de un estado inicial.
+def estado_final(U_n_series, estado_inicial):
+    estado_actual = estado_inicial
+    i = 0
+    while i < len(U_n_series):
+        estado_actual = np.dot(U_n_series[i], estado_actual)
+        i += 1
+    return estado_actual
+
+U_4 = np.array([[0, -1j], [1j, 0]])
+U_5 = np.array([[1, 0], [0, -1]])
+U_n_series = [U_4, U_5]
+estado_inicial = np.array([0, 1])
+estado_final_sistema = estado_final(U_n_series, estado_inicial)
+
+print("Estado final:", estado_final_sistema)
 # Ejercicio 4.3.1
+
 # Ejercicio 4.3.2
 # Ejercicio 4.4.1
 def mat_unitaria(matrix):
