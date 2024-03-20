@@ -1,25 +1,22 @@
-# 4.5.2 y 4.5.3:
+class Matriz:
+    # Método para calcular el módulo cuadrado de cada número complejo en la matriz
+    def modulo_cuadrado(self, matriz):
+        for i in range(len(matriz)):
+            matriz[i][0] = (matriz[i][0].real ** 2 + matriz[i][0].imag ** 2)
+        return matriz
 
-Postulate 4.5.1 Assume we have two independent quantum systems Q and Q , represented respectively by the vector spaces V and V . The quantum system obtained by merging Qand Q will have the tensor product V ⊗ V as a state space.
+# Definición de la matriz n con números complejos
+n = [[(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)],
+     [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)], [(1+1j)]]
 
-# Analisis:
-Sabiendo que el producto tensor es asociativo , se puede inferir que cada uno de los vectores V representara un sistema largo de varios proodctos tensores entre si , por lo cual siguiendo el postulado , se toma el conjunto de complejos y se busca su probabilidad en un punto especifico dado:
+# Creación de una instancia de la clase Matriz
+matriz = Matriz()
+# Cálculo del módulo cuadrado de cada número complejo en la matriz n
+n = matriz.modulo_cuadrado(n)
 
-siendo m = n =4 con complejos Co,o=...=C3.3=1+i , buscamos la particula en el punto X1:
-	
-	n= matriz([ [[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]],[[1,1]] ])
-	###Hallamos modulo cuadrado a cada uno de los complejos del vector
-	for i in range(len(n.c)):
-		n.c[i][0]=n.c[i][0].modulo_cuadrado()
-  
-Luego verificamos cual es la probabilidad de enconttrar una particula de posicion x1 y otra particula en una posicion y1 :
+# Cálculo de la probabilidad de encontrar una partícula en la posición x1
+x_position = n[1][0]
+total_sum = sum(x[0] for x in n)
+probability_x1 = x_position / total_sum
 
-	>>> x_position= n.c[1][0]
-	# con la posicion x1 y y1 procedemos a calcular la probabilidad dividiendolo bajo la suma de  todos los complejos tenidos del vector anteriormente.
-	>>> cont=0
-	>>> for i in range(len(n.c)):
-		cont+=n.c[i][0]
-	>>> print(x_position[0]/cont)
-	0.0625
-
-En terminos probabillisticos , esta cantidad es suficientemente grande con un valor del 62.5% de que esten ambas particulas en estas dos posiciones.
+print("Probabilidad de encontrar una partícula en la posición x1:", probability_x1)
