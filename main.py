@@ -61,7 +61,55 @@ def amplitud_transicion(v1, v2):
 
 print(amplitud_transicion(np.array([1, 2j, -3j]), np.array([0, 1+1j, 3-4j])))
 # 2. Ahora con una matriz que describa un observable y un vector ket, el sistema revisa que la matriz sea hermitiana, y si lo es, calcula la media y la varianza del observable en el estado dado.
+def hermitiana_media_varianza(m,v):
 
+    def b(v):
+        for i in range(len(v)):
+            v[i] = v[i].conjugate()
+        return v
+
+    def accion(v, m):
+        ans = [0] * len(m)
+        for i in range(len(m)):
+            aux = 0
+            for j in range(len(m[i])):
+                aux += m[i][j] * v[j]
+            ans[i] = aux
+        return ans
+
+    def prod_inter(v1, v2):
+        ans = 0
+        for i in range(len(v1)):
+            v1[i] = v1[i].conjugate()
+            ans += v1[i] * v2[i]
+        return ans
+
+    def prod_mat(m1, m2):
+            ans = [[0 for j in range(len(m2[0]))] for i in range(len(m1))]
+            for i in range(len(m1)):
+                for j in range(len(m2[0])):
+                    aux = 0
+                    for k in range(len(m2)):
+                        aux = m1[i][k] * m2[k][j]
+                    ans[i][j] = aux
+            return ans
+    b_v=b(v)
+    ax_v=accion(v,m)
+    media=prod_inter(ax_v,b_v)
+    matri=[[media * -1 for i in range(len(m[0]))] for j in range(len(m))]
+    for i in range(len(m)):
+        for j in range(len(m)):
+            matri[i][j] += m[i][j]
+    matriz=prod_mat(matri,matri)
+    var=prod_inter(accion(v,matriz),b_v)
+    return media,var
+
+m = [[1, 2+1j, 3], [2-1j, 4, 5+2j], [3, 5-2j, 6]]
+v = [1, 2, 3]
+media, varianza = hermitiana_media_varianza(m, v)
+
+print("La media es:", media)
+print("La varianza es:", varianza)
 # 3. El sistema calcula los valores propios del observable y la probabilidad de que el sistema transite a alguno de los vectores propios después de la observación.
 
 # 4. Se considera la dinámica del sistema. Ahora con una serie de matrices Un el sistema calcula el estado final a partir de un estado inicial.
