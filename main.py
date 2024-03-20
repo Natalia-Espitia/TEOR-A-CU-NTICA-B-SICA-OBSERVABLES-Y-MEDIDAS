@@ -59,6 +59,6 @@ def ampl_transicion(v1, v2):
 
     return np.abs(prod_in) ** 2
 
-print(ampl_transicion(np.array([1+2j, -3j, 4+1j]), np.array([5j, 2-1j, 3+4j])))
+print(ampl_transicion(np.array([1, 2j, -3j]), np.array([0, 1+1j, 3-4j])))
 
 
