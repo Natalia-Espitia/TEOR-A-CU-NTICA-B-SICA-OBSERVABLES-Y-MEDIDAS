@@ -152,8 +152,45 @@ estado_final_sistema = estado_final(U_n_series, estado_inicial)
 
 print("Estado final:", estado_final_sistema)
 # Ejercicio 4.3.1
+def norma(numero):
+    return sum(x**2 for x in numero)
 
+def norma_vector(vector):
+    return sum(norma(numero) for numero in vector)
+
+def probabilidad(pos, vector):
+    return (norma(vector[pos]) / norma_vector(vector)) * 100 if norma_vector(vector) != 0 else 0
+
+def posiblesProbabilidad(posicion, index):
+    estados = [[(0, 1), (1, 0)], [(0, -1), (1, 0)], [(1, 0), (1, 0)], [(-1, 0), (1, 0)], [(0, 0), (1, 0)], [(1, 0), (0, 0)]]
+    return [estado for i in range((index * 2) - 2, index * 2) if (estado := estados[i]) and probabilidad(posicion, estado) != 0]
+vector_estados = [[(1, 0), (0, -1)], [(0, -1j), (1j, 0)], [(0, 1), (1, 0)]]
+
+print("Probabilidad:", probabilidad(1, vector_estados[0]))
+print("Posibles probabilidades:", posiblesProbabilidad(1, 2))
 # Ejercicio 4.3.2
+def probabilidadValoresPropios(posicion, index):
+    matrices = [
+        [[(1,0),(0,0)],[(0,0),(-1,0)]],
+        [[(0,0),(0,-1)],[(0,1),(0,0)]],
+        [[(0,0),(1,0)],[(1,0),(0,0)]]
+    ]
+    valoresPropios = []
+    aux = posiblesProbabilidad(posicion, index)
+    resultado = 0
+    for matriz in matrices:
+        valores, _ = np.linalg.eig(matriz)
+        valoresPropios.extend(valores)
+    for estado in aux:
+        prob = probabilidad(posicion, estado) / 100 
+        for i in range(2):
+            resultado += prob * valoresPropios[index][i]
+    return resultado
+    
+posicion_ejemplo = 1
+index_ejemplo = 2
+resultado_ejemplo = probabilidadValoresPropios(posicion_ejemplo, index_ejemplo)
+print(resultado_ejemplo)
 # Ejercicio 4.4.1
 def mat_unitaria(matrix):
     return True
